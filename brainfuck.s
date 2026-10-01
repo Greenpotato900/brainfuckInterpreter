@@ -17,7 +17,9 @@ brainfuck:
 	pushq %rbp
 	movq %rsp, %rbp
 
-	#IMPLEMENT PUSHING R12 R13 TO STACK TO SAVE THEM
+	#PUSHING R12 R13 TO STACK TO SAVE THEM CAUSE THEY ARE CALLEE SAVED
+	pushq %r12
+	pushq %r13
 
 	#we are adding 5000 to outputArray because we would like the pointer to start in the middles so that "<"" does not go in uncharted territory
 	movq $outputArray+5000, %r12 #the beginnning of the array, the array pointer, will be in r12. Callee saved, because we will use printf.
@@ -116,6 +118,8 @@ brainfuck:
 	jmp interpretSymbol
 
 	end:
+	popq %r13
+	popq %r12
 	movq %rbp, %rsp
 	popq %rbp
 	ret
